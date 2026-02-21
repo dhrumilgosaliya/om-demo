@@ -28,22 +28,21 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: change directory to codebase
+        run: cd codebase/rdicidr-0.1.0
+
       # Install dependencies (run in correct working-directory if needed)
       - name: Install dependencies
         run: npm install
-        working-directory: codebase/rdicidr-0.1.0 
 
       # Lint code
       - name: Run linter
         run: npm run lint
-        working-directory: codebase/rdicidr-0.1.0
 
       # Run tests
       - name: Run tests
         run: CI=true npm run test
-        working-directory: codebase/rdicidr-0.1.0
 
       # Build application
       - name: Build application
         run: npm run build
-        working-directory: codebase/rdicidr-0.1.0
