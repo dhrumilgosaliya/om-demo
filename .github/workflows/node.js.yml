@@ -14,7 +14,7 @@ jobs:
     # --- FIX: Use integer Node versions in a matrix ---
     strategy:
       matrix:
-        node-version: [18]   # removed decimal .0
+        node-version: [15]   # removed decimal .0
         # To test multiple versions, you can do: [16, 18, 20]
 
     steps:
