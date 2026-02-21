@@ -1,0 +1,49 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of Node.js
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # --- FIX: Use integer Node versions in a matrix ---
+    strategy:
+      matrix:
+        node-version: [18]   # removed decimal .0
+        # To test multiple versions, you can do: [16, 18, 20]
+
+    steps:
+      # Checkout code
+      - uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # Install dependencies (run in correct working-directory if needed)
+      - name: Install dependencies
+        run: npm install
+        working-directory: codebase/rdicidr-0.1.0 
+
+      # Lint code
+      - name: Run linter
+        run: npm run lint
+        working-directory: codebase/rdicidr-0.1.0
+
+      # Run tests
+      - name: Run tests
+        run: CI=true npm run test
+        working-directory: codebase/rdicidr-0.1.0
+
+      # Build application
+      - name: Build application
+        run: npm run build
+        working-directory: codebase/rdicidr-0.1.0
