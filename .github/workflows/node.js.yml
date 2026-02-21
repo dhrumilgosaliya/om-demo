@@ -27,22 +27,24 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: codebase/rdicidr-0.1.0/package-lock.json
 
-      - name: change directory to codebase
-        run: cd codebase/rdicidr-0.1.0
-
-      # Install dependencies (run in correct working-directory if needed)
+      # Install dependencies (run in project subdirectory)
       - name: Install dependencies
+        working-directory: codebase/rdicidr-0.1.0
         run: npm install
 
       # Lint code
       - name: Run linter
+        working-directory: codebase/rdicidr-0.1.0
         run: npm run lint
 
       # Run tests
       - name: Run tests
+        working-directory: codebase/rdicidr-0.1.0
         run: CI=true npm run test
 
       # Build application
       - name: Build application
+        working-directory: codebase/rdicidr-0.1.0
         run: npm run build
